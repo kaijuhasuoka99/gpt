@@ -8,7 +8,7 @@ Run the following command to install the required packages:
 ```bash
 pip install -r requirements.txt
 ```
-The `datas.zip` file contains the pre-corpus-processed text data, so there's no need to run `make_corpus.py`. 
+The `datas.zip` file also contains the processed corpus data, so there's no need to run `make_corpus.py`. 
 If you wish to use additional text data, refer to `make_corpus.py` to consider integrating new text data. In this case, make sure to append new tokens to token_to_id in `assets.yaml` rather than creating a new dictionary.
 
 ## Usage
@@ -19,7 +19,9 @@ python train.py --data_path ./sample_jpn.npy --language jpn
 ```
 Set the `--data_path` option to specify the dataset path. The `--language` option should correspond to the dataset language.
 
-Since this is a simple implementation, there is no learning rate scheduling. Adjust `batch_size`, `seq_len`, and `n_layer` in `GPTConfig` according to your machine's capabilities. The method used to create the dataset combinations is not optimal for large-scale datasets.
+Since this is a simple implementation, there is no learning rate scheduling. 
+Adjust `batch_size`, `seq_len`, and `n_layer` in `GPTConfig` according to your machine's capabilities.
+There are various ways to create a dataset. In `train.py`, all words are specified as the initial words, but this method is very inefficient for large-scale datasets.
 
 ## Generation
 To generate text using a trained model, run:
@@ -81,4 +83,4 @@ Q:シェイクスピアの劇の中で「ロミオとジュリエット」はど
 
 ## References
 Code:
-[minGPT](https://github.com/karpathy/minGPT)
+-[minGPT](https://github.com/karpathy/minGPT)

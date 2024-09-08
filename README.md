@@ -83,4 +83,4 @@ Q:シェイクスピアの劇の中で「ロミオとジュリエット」はど
 
 ## References
 Code:
--[minGPT](https://github.com/karpathy/minGPT)
+- [minGPT](https://github.com/karpathy/minGPT)

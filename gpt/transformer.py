@@ -15,7 +15,7 @@ class CausalSelfAttention(nn.Module):
         self.linear_output = nn.Linear(config.embed_dim, config.embed_dim)
         self.dropout_attn = nn.Dropout(config.drop)
         self.dropout_resid = nn.Dropout(config.drop)
-        # causal mask to ensure that attention is only applied to the left in the input sequence
+
         self.register_buffer("bias", torch.tril(torch.ones(config.seq_len, config.seq_len))
                                      .view(1, 1, config.seq_len, config.seq_len))
         self.n_head = config.n_head
@@ -24,9 +24,9 @@ class CausalSelfAttention(nn.Module):
     def forward(self, x):
         B, T, E = x.size()
         q, k, v = self.linear_proj(x).chunk(3, dim=2)
-        k = k.view(B, T, self.n_head, E // self.n_head).transpose(1, 2) # (B, nh, T, hs)
-        q = q.view(B, T, self.n_head, E // self.n_head).transpose(1, 2) # (B, nh, T, hs)
-        v = v.view(B, T, self.n_head, E // self.n_head).transpose(1, 2) # (B, nh, T, hs)
+        k = k.view(B, T, self.n_head, E // self.n_head).transpose(1, 2)
+        q = q.view(B, T, self.n_head, E // self.n_head).transpose(1, 2)
+        v = v.view(B, T, self.n_head, E // self.n_head).transpose(1, 2)
 
         attn = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(k.size(-1)))
         attn = attn.masked_fill(self.bias[:,:,:T,:T] == 0, float('-inf'))
